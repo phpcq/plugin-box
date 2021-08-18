@@ -1,13 +1,13 @@
 {
-  "name": "phpcq/plugin-phploc",
+  "name": "phpcq/plugin-box",
   "type": "phpcq-plugin",
-  "description": "Bootstrap library for phpcq.",
+  "description": "Box plugin for phpcq.",
   "license": "MIT",
   "authors": [
     {
       "name": "Christian Schiffler",
       "email": "c.schiffler@cyberspectrum.de",
-      "homepage": "http://cyberspectrum.de",
+      "homepage": "https://cyberspectrum.de",
       "role": "lead"
     },
     {
