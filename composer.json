@@ -1,8 +1,8 @@
 {
   "name": "phpcq/plugin-box",
-  "type": "phpcq-plugin",
   "description": "Box plugin for phpcq.",
   "license": "MIT",
+  "type": "phpcq-plugin",
   "authors": [
     {
       "name": "Christian Schiffler",
