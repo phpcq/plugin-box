@@ -751,15 +751,17 @@ return new class implements DiagnosticsPluginInterface {
         }
 
         if ($config->has('stub')) {
-            switch ($config->getString('stub')) {
-                case 'default':
+            switch ($stubFile = $config->getString('stub')) {
+                case 'generated':
                     $contents['stub'] = true;
                     break;
                 case '':
                     $contents['stub'] = false;
                     break;
                 default:
+                    $contents['stub'] = $stubFile;
             }
+            unset($stubFile);
         }
 
         if ($config->has('map')) {
