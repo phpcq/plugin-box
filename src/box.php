@@ -356,7 +356,7 @@ return new class implements DiagnosticsPluginInterface {
             ->isRequired();
         // https://github.com/box-project/box/blob/master/doc/configuration.md#finder-finder-and-finder-bin
         $configOptionsBuilder
-            ->describeStringListOption(
+            ->describeOptionsListOption(
                 'finder',
                 <<<EOF
                 The finder setting is a list of JSON objects. Each object (key, value) tuple is a (method, arguments) of
@@ -370,7 +370,7 @@ return new class implements DiagnosticsPluginInterface {
             ->isRequired();
         // https://github.com/box-project/box/blob/master/doc/configuration.md#finder-finder-and-finder-bin
         $configOptionsBuilder
-            ->describeStringListOption(
+            ->describeOptionsListOption(
                 'finder_bin',
                 <<<EOF
                 finder-bin is analogue to finder except the files are added to the PHAR unmodified.
@@ -701,14 +701,28 @@ return new class implements DiagnosticsPluginInterface {
             'add_directories_bin' => 'directories-bin',
             'files'               => 'files',
             'files_bin'           => 'files-bin',
-            'finder'              => 'finder',
-            'finder_bin'          => 'finder-bin',
         ];
 
         foreach ($stringList as $configKey => $remappedKey) {
             if (
                 $config->has($configKey)
                 && !$this->isDefault($configKey, $value = $config->getStringList($configKey))
+            ) {
+                $contents[$remappedKey] = $value;
+            }
+        }
+
+        // Finders are special.
+        /** @psalm-var array<string,string> $stringList */
+        static $optionsList = [
+            'finder'              => 'finder',
+            'finder_bin'          => 'finder-bin',
+        ];
+
+        foreach ($optionsList as $configKey => $remappedKey) {
+            if (
+                $config->has($configKey)
+                && !$this->isDefault($configKey, $value = $config->getOptions($configKey))
             ) {
                 $contents[$remappedKey] = $value;
             }
