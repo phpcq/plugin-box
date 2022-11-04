@@ -619,17 +619,21 @@ return new class implements DiagnosticsPluginInterface {
         $configFile = $environment->getUniqueTempFile($this, 'box.json');
         file_put_contents($configFile, $json);
 
+        $arguments = [
+            'compile',
+            '--config',
+            $configFile,
+            '-d',
+            $environment->getProjectConfiguration()->getProjectRootPath()
+        ];
+        if (1 === $environment->getAvailableThreads()) {
+            $arguments[] = '--no-parallel';
+        }
         yield $environment
             ->getTaskFactory()
             ->buildRunPhar(
                 'box',
-                [
-                    'compile',
-                    '--config',
-                    $configFile,
-                    '-d',
-                    $environment->getProjectConfiguration()->getProjectRootPath()
-                ]
+                $arguments
             )
             ->withWorkingDirectory($environment->getProjectConfiguration()->getProjectRootPath())
             ->withOutputTransformer($this->createOutputTransformer($contents))
