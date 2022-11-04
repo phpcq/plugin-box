@@ -67,6 +67,14 @@ return new class implements DiagnosticsPluginInterface {
 
     public function describeConfiguration(PluginConfigurationBuilderInterface $configOptionsBuilder): void
     {
+        $configOptionsBuilder
+            ->describeStringListOption(
+                'custom_flags',
+                'Any custom flags to pass. For valid flags refer to the phpcs documentation.',
+            )
+            ->isRequired()
+            ->withDefaultValue([]);
+
         // See https://github.com/box-project/box/blob/master/doc/configuration.md
 
         // https://github.com/box-project/box/blob/master/doc/configuration.md#signing-algorithm-algorithm
@@ -629,6 +637,12 @@ return new class implements DiagnosticsPluginInterface {
         if (1 === $environment->getAvailableThreads()) {
             $arguments[] = '--no-parallel';
         }
+        if ($config->has('custom_flags')) {
+            foreach ($config->getStringList('custom_flags') as $value) {
+                $arguments[] = $value;
+            }
+        }
+
         yield $environment
             ->getTaskFactory()
             ->buildRunPhar(
