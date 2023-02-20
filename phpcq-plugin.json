@@ -11,7 +11,7 @@
     },
     "tool": {
       "box": {
-        "constraints": "^3.8.4",
+        "constraints": "^3.8.4 || ^4.0.0",
         "sources": [
           {
             "type": "github",
